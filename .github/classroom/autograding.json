@@ -1,0 +1,11 @@
+{
+    "tests": [
+        {
+            "name": "testAddsOneBlock",
+            "setup": "",
+            "run": "./gradlew test --tests AppTest.testAddsOneBlock",
+            "timeout": 3,
+            "points": 1
+        }
+    ]
+}
