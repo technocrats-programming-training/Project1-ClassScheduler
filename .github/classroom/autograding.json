@@ -6,6 +6,34 @@
             "run": "./gradlew test --tests AppTest.testAddsOneBlock",
             "timeout": 3,
             "points": 1
+        },
+        {
+            "name": "testAddsTwoBlocks",
+            "setup": "",
+            "run": "./gradlew test --tests AppTest.testAddsTwoBlocks",
+            "timeout": 3,
+            "points": 1
+        },
+        {
+            "name": "testAddsConflictingBlocks",
+            "setup": "",
+            "run": "./gradlew test --tests AppTest.testAddsConflictingBlocks",
+            "timeout": 3,
+            "points": 1
+        },
+        {
+            "name": "testDrop",
+            "setup": "",
+            "run": "./gradlew test --tests AppTest.testDrop",
+            "timeout": 3,
+            "points": 1
+        },
+        {
+            "name": "testPrintsDatabase",
+            "setup": "",
+            "run": "./gradlew test --tests AppTest.testPrintsDatabase",
+            "timeout": 3,
+            "points": 1
         }
     ]
 }
