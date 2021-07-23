@@ -37,6 +37,22 @@ public class AppTest {
         return outContent;
     }
 
+    @Test
+    public void testPrintsDatabase() {
+        replaceSystemIn(CommonFixtures.classDatabase+"viewAvailable\r\n");
+        ByteArrayOutputStream outContent = replaceSystemOut();
+        try {
+            App.main(null);
+        } catch (NoSuchElementException e) {
+            
+        }
+        assertTrue(outContent.toString().contains("ID: 0, Block: 1, Name: AP Lang, Teacher: Homberger"));
+        assertTrue(outContent.toString().contains("ID: 1, Block: 2, Name: AP Physics, Teacher: Ditty"));
+        assertTrue(outContent.toString().contains("ID: 2, Block: 3, Name: AP Chemistry, Teacher: Kappel"));
+        assertTrue(outContent.toString().contains("ID: 3, Block: 4, Name: HPAL, Teacher: Brueske"));
+        assertTrue(outContent.toString().contains("ID: 4, Block: 2, Name: AP Calculus, Teacher: Hering"));
+    }
+
     @Test 
     public void testAddsOneBlock() {
         replaceSystemIn(CommonFixtures.classDatabase+"add\r\n0\r\nviewSchedule\r\n");
@@ -46,7 +62,53 @@ public class AppTest {
         } catch (NoSuchElementException e) {
             
         }
-        System.err.println(outContent.toString());
+        assertTrue(outContent.toString().contains("Block 1: AP Lang"));
+        assertTrue(outContent.toString().contains("Block 2: empty"));
+        assertTrue(outContent.toString().contains("Block 3: empty"));
+        assertTrue(outContent.toString().contains("Block 4: empty"));
+    }
+
+    @Test
+    public void testAddsTwoBlocks() {
+        replaceSystemIn(CommonFixtures.classDatabase+"add\r\n0\r\nadd\r\n1\r\nviewSchedule\r\n");
+        ByteArrayOutputStream outContent = replaceSystemOut();
+        try {
+            App.main(null);
+        } catch (NoSuchElementException e) {
+            
+        }
+        assertTrue(outContent.toString().contains("Block 1: AP Lang"));
+        assertTrue(outContent.toString().contains("Block 2: AP Physics"));
+        assertTrue(outContent.toString().contains("Block 3: empty"));
+        assertTrue(outContent.toString().contains("Block 4: empty"));
+    }
+
+    @Test
+    public void testAddsConflictingBlocks() {
+        replaceSystemIn(CommonFixtures.classDatabase+"add\r\n1\r\nadd\r\n4\r\nviewSchedule\r\n");
+        ByteArrayOutputStream outContent = replaceSystemOut();
+        try {
+            App.main(null);
+        } catch (NoSuchElementException e) {
+            
+        }
+        assertTrue(outContent.toString().contains("Block 2 is already full"));
+        assertTrue(outContent.toString().contains("Block 1: empty"));
+        assertTrue(outContent.toString().contains("Block 2: AP Physics"));
+        assertTrue(outContent.toString().contains("Block 3: empty"));
+        assertTrue(outContent.toString().contains("Block 4: empty"));
+    }
+
+    @Test
+    public void testDrop() {
+        replaceSystemIn(CommonFixtures.classDatabase+"add\r\n0\r\nadd\r\n1\r\ndrop\r\n2\r\nviewSchedule\r\n");
+        ByteArrayOutputStream outContent = replaceSystemOut();
+        try {
+            App.main(null);
+        } catch (NoSuchElementException e) {
+            
+        }
+        assertTrue(outContent.toString().contains("Enter block:"));
         assertTrue(outContent.toString().contains("Block 1: AP Lang"));
         assertTrue(outContent.toString().contains("Block 2: empty"));
         assertTrue(outContent.toString().contains("Block 3: empty"));
